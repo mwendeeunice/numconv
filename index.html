@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A focused number base conversion tool.">
+  <title>Numconv | Number base converter</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='16' fill='%2320252a'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='monospace' font-size='18' fill='%23fffdf8'%3EN%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Numconv home">
+        <span class="brand-mark">N</span>
+        <span>numconv</span>
+      </a>
+      <div class="topbar-note"><span class="live-dot"></span> instant conversion</div>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">BASE TRANSLATOR / 01</p>
+      <h1 id="page-title">Numbers,<br><em>reframed.</em></h1>
+      <p class="intro-copy">Translate a value between any numeral systems from binary to base 36. Your result updates as you type.</p>
+    </section>
+
+    <section class="converter-panel" aria-label="Number converter">
+      <div class="converter-grid">
+        <div class="input-column">
+          <div class="field-heading">
+            <label for="input-value">Input value</label>
+            <span class="base-chip" id="input-base-label">BASE 10</span>
+          </div>
+          <input id="input-value" class="number-input" type="text" value="255" autocomplete="off" spellcheck="false" aria-describedby="input-help">
+          <div class="control-row">
+            <label class="select-wrap" for="input-base">
+              <span>From</span>
+              <select id="input-base">
+                <option value="2">Binary · 2</option>
+                <option value="8">Octal · 8</option>
+                <option value="10" selected>Decimal · 10</option>
+                <option value="16">Hexadecimal · 16</option>
+                <option value="36">Base 36</option>
+                <option value="custom">Custom base</option>
+              </select>
+            </label>
+            <label class="custom-base hidden" for="input-custom-base">
+              <span>Base</span>
+              <input id="input-custom-base" type="number" min="2" max="36" value="10">
+            </label>
+          </div>
+          <p class="field-help" id="input-help">Digits: 0–9 and A–Z</p>
+        </div>
+
+        <button class="swap-button" id="swap-button" type="button" aria-label="Swap input and output bases" title="Swap bases">
+          <span>↔</span>
+        </button>
+
+        <div class="output-column">
+          <div class="field-heading">
+            <span class="field-label">Converted value</span>
+            <span class="base-chip accent" id="output-base-label">BASE 16</span>
+          </div>
+          <output id="output-value" class="number-output" aria-live="polite">FF</output>
+          <div class="control-row">
+            <label class="select-wrap" for="output-base">
+              <span>To</span>
+              <select id="output-base">
+                <option value="2">Binary · 2</option>
+                <option value="8">Octal · 8</option>
+                <option value="10">Decimal · 10</option>
+                <option value="16" selected>Hexadecimal · 16</option>
+                <option value="36">Base 36</option>
+                <option value="custom">Custom base</option>
+              </select>
+            </label>
+            <label class="custom-base hidden" for="output-custom-base">
+              <span>Base</span>
+              <input id="output-custom-base" type="number" min="2" max="36" value="16">
+            </label>
+            <button class="copy-button" id="copy-button" type="button" aria-label="Copy converted value" title="Copy result">Copy</button>
+          </div>
+          <p class="field-help" id="output-help">Uppercase letters used for bases above 10</p>
+        </div>
+      </div>
+      <div class="status-line" id="status-line" role="status">Ready to translate.</div>
+    </section>
+
+    <section class="quick-section" aria-labelledby="quick-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">SHORTCUTS / 02</p>
+          <h2 id="quick-title">Quick bases</h2>
+        </div>
+        <p>Choose a familiar pair to get moving.</p>
+      </div>
+      <div class="preset-grid">
+        <button class="preset" type="button" data-from="2" data-to="10"><span class="preset-symbol">01</span><span><strong>Binary</strong><small>to decimal</small></span><span class="preset-arrow">↗</span></button>
+        <button class="preset" type="button" data-from="10" data-to="2"><span class="preset-symbol">10</span><span><strong>Decimal</strong><small>to binary</small></span><span class="preset-arrow">↗</span></button>
+        <button class="preset" type="button" data-from="10" data-to="16"><span class="preset-symbol">0x</span><span><strong>Decimal</strong><small>to hexadecimal</small></span><span class="preset-arrow">↗</span></button>
+        <button class="preset" type="button" data-from="16" data-to="10"><span class="preset-symbol">#</span><span><strong>Hexadecimal</strong><small>to decimal</small></span><span class="preset-arrow">↗</span></button>
+      </div>
+    </section>
+
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="section-heading history-heading">
+        <div>
+          <p class="eyebrow">RECENT / 03</p>
+          <h2 id="history-title">Conversion trail</h2>
+        </div>
+        <button class="clear-button" id="clear-history" type="button">Clear history</button>
+      </div>
+      <div id="history-list" class="history-list">
+        <p class="empty-history">Your recent conversions will appear here.</p>
+      </div>
+    </section>
+
+    <footer><span>NUMCONV</span><span>Built for curious minds</span></footer>
+  </main>
+</body>
+</html>
